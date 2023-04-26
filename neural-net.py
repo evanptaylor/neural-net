@@ -20,23 +20,11 @@ def plot_data(X):
     plt.show()
 
 def plot_results(predictions):
-    right = np.empty_like(X)
-    wrong = np.empty_like(X)
-    cright = 0
-    cwrong = 0
-
-    for i in range(len(y)):
+    for i in range(len(X)):
         if y[i] == predictions[i]:
-            right[i] = X[i]
-            cright += 1
-        else: 
-            wrong[i]=X[i]
-            cwrong +=1
-
-    right = right[:cright]
-    wrong = wrong[:cwrong]
-    plt.scatter(right[:,0], right[:,1], color='g')
-    plt.scatter(wrong[:,0], wrong[:,1], color='r')
+            plt.scatter(X[i,0], X[i,1], color='g') #plot green if correct prediction
+        else:
+            plt.scatter(X[i,0], X[i,1], color='r') #else red
     plt.title("Predictions")
     plt.show()
 
@@ -166,10 +154,14 @@ X, y = create_spiral_data(100, 3) #100 samples, 3 classes
 #plot_data(X)
 
 #construct the neural net
-layer1 = Layer(2,64) #initalize first layer -- 2 inputs, 64 nuerons (outputs)
+
+layer0 = Layer(2,32) #initalize first layer -- 2 inputs, 64 nuerons (outputs)
+l0_activation = ReLUActivation() #define activation function for layer1
+
+layer1 = Layer(32,32) #initalize first layer -- 2 inputs, 64 nuerons (outputs)
 l1_activation = ReLUActivation() #define activation function for layer1
 
-layer2 = Layer(64,3) #define output layer -- 64 in, 3 out
+layer2 = Layer(32,3) #define output layer -- 64 in, 3 out
 l2_activation = SoftmaxCostActivation() #combined cost and softmax activation function
 
 #initialize optimizer with a learning rate decay 
@@ -179,7 +171,9 @@ optimizer = SGDOptimizer(decay=1e-3)
 for epoch in range(10001):
 
     #pass data through the model
-    layer1.forward(X) #pass through layer1
+    layer0.forward(X)
+    l0_activation.forward(layer0.output)
+    layer1.forward(l0_activation.output) #pass through layer1
     l1_activation.forward(layer1.output)
     layer2.forward(l1_activation.output) #pass through layer2 (output layer)
 
@@ -206,9 +200,12 @@ for epoch in range(10001):
     layer2.backward(l2_activation.dinputs)
     l1_activation.backward(layer2.dinputs)
     layer1.backward(l1_activation.dinputs)
+    l0_activation.backward(layer1.dinputs)
+    layer0.backward(l0_activation.dinputs)
 
     #optimize (update weights and biases for each layer)
     optimizer.pre_update_params()
+    optimizer.update_params(layer0)
     optimizer.update_params(layer1)
     optimizer.update_params(layer2)
     optimizer.count()
