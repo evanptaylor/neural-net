@@ -2,7 +2,9 @@
 
 ### “What I cannot create, I do not understand” - Richard Feynman
 
-##### neural-net.py is my implementation of a simple neural network in Python using NumPy. For now, it uses a custom spiral dataset with three classes and trains the network using stochastic gradient descent. The current code has only a single hidden layer with 64 neurons.
+neural-net.py is my implementation of a simple neural network in Python using NumPy. For now, it uses a custom spiral dataset with three classes and trains the network using stochastic gradient descent. The current code uses only a single hidden layer with 64 neurons.
+
+This specific 'sprial' dataset is from nnfs.io. Also a good resourse to learn about neural networks
 
 Here is the dataset visualized with matplotlib:
 
@@ -11,3 +13,4 @@ Here is the dataset visualized with matplotlib:
 Here's an example output after 10,000 epochs:
 
 ![Screen Shot 2023-04-26 at 3 46 35 AM](https://user-images.githubusercontent.com/36122439/234508866-26497a08-8ac0-48f5-8456-bd2e9cc61544.png)
+
