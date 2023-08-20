@@ -4,7 +4,7 @@
 
 neural-net.py is my implementation of a simple neural network in Python using NumPy. For now, it uses a custom dataset with three classes and trains the network using stochastic gradient descent. The current code uses 2 hidden layers, each containing 32 neurons. The hidden layers use a rectified linear activation function. The model achieves ~95% accuracy on this simple dataset.
 
-This specific 'sprial' dataset is from nnfs.io--a good resource to learn more about neural networks
+This specific 'sprial' dataset is from nnfs.io
 
 Below is a visual representation of the current implementation
 
